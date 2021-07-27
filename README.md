@@ -19,19 +19,20 @@ Here are the three endpoints:
 
 #### TO INSTALL
 ```code
-> npm install node-fetch fastify
+> git clone <this repo>
+> npm install
 ```
 
 #### TO RUN
 ```code
-> node server-props-proxy.js
+> node server.js
 ```
 
 #### TO TEST
 ```
 > curl http://localhost:3000/:urn/metadata/:guid/properties
 ```
-| include bim360 access token in the bearer header
+> Remember: include the BIM 360 Access Token, in the header `Authorization:Bearer <token>` in the standard way.
 
 See screenshot:
 
