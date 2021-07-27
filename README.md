@@ -5,12 +5,12 @@ A Proxy Server that provides an alternative `Forge Properties API` endpoints for
 Just point your application to this proxy server, and it will `swizzle` the dbIDs for you, and provide you the matching properties meta-data (prior to the July 1st changes).
 
 Here are the three endpoints:
-- https://forge-properties-proxy.herokuapp.com/:urn
+- https://forge-properties-proxy.herokuapp.com/:urn/metadata
 - https://forge-properties-proxy.herokuapp.com/:urn/metadata/:guid
 - https://forge-properties-proxy.herokuapp.com/:urn/metadata/:guid/properties
 
 ...which replace:
-- https://developer.api.autodesk.com/modelderivative/v2/designdata/:urn
+- https://developer.api.autodesk.com/modelderivative/v2/designdata/:urn/metadata
 - https://developer.api.autodesk.com/modelderivative/v2/designdata/:urn/metadata/:guid
 - https://developer.api.autodesk.com/modelderivative/v2/designdata/:urn/metadata/:guid/properties
 
