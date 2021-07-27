@@ -1,0 +1,24 @@
+{
+  "name": "properties-proxy",
+  "version": "1.0.0",
+  "description": "tba",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wallabyway/properties-proxy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wallabyway/properties-proxy/issues"
+  },
+  "homepage": "https://github.com/wallabyway/properties-proxy#readme",
+  "dependencies": {
+    "fastify": "^3.19.2",
+    "node-fetch": "^2.6.1"
+  }
+}
