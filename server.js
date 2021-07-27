@@ -19,11 +19,6 @@ const path = require('path');
 const FORGE_SVF2_URL = `https://otg.autodesk.com/modeldata/manifest`;
 const opts = token => ({ compress: true, headers: { 'Authorization': 'Bearer ' + token }});
 
-fastify.register(require('fastify-static'), {
-  root: path.join(__dirname, 'ui'),
-  prefix: '/', // optional: default '/'
-})
-
 function setCORS(reply) {
     reply.header("Access-Control-Allow-Origin", "*");
     reply.header("Access-Control-Allow-Methods", "POST");    
