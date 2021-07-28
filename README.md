@@ -4,23 +4,35 @@ A Proxy Server that provides an alternative `Forge Properties API` endpoints for
 
 Just point your application to this proxy server, and it will `swizzle` the dbIDs for you, and provide you the matching properties meta-data (prior to the July 1st changes).
 
+Here are the three endpoints:
+- https://forge-properties-proxy.herokuapp.com/:urn/metadata
+- https://forge-properties-proxy.herokuapp.com/:urn/metadata/:guid
+- https://forge-properties-proxy.herokuapp.com/:urn/metadata/:guid/properties
+
+...which replace:
+- https://developer.api.autodesk.com/modelderivative/v2/designdata/:urn/metadata
+- https://developer.api.autodesk.com/modelderivative/v2/designdata/:urn/metadata/:guid
+- https://developer.api.autodesk.com/modelderivative/v2/designdata/:urn/metadata/:guid/properties
+
+
 ![Screen Shot 2021-07-26 at 8 01 35 PM](https://user-images.githubusercontent.com/440241/127088522-4ee86403-9505-42f7-9b09-25fe7ec5cd36.JPG)
 
 #### TO INSTALL
 ```code
-> npm install node-fetch fastify
+> git clone <this repo>
+> npm install
 ```
 
 #### TO RUN
 ```code
-> node server-props-proxy.js
+> node server.js
 ```
 
 #### TO TEST
 ```
 > curl http://localhost:3000/:urn/metadata/:guid/properties
 ```
-| include bim360 access token in the bearer header
+> Remember: include the BIM 360 Access Token, in the header `Authorization:Bearer <token>` in the standard way.
 
 See screenshot:
 
