@@ -26,10 +26,10 @@ function setCORS(reply) {
 
 const cache =[];
 
-async function getLookupTable(urn, token) {
+async function getLookupTable(urn, token, reply) {
   let dbidIdx;
   if (!cache[urn]) {
-    const otg_manifest = await getPathFromManifest(urn, token);
+    const otg_manifest = await getPathFromManifest(urn, token, reply);
     dbidIdx = await downloadLookupTable(otg_manifest, token);
     cache[urn]=dbidIdx;    	
   } else
@@ -38,10 +38,12 @@ async function getLookupTable(urn, token) {
   return dbidIdx;
 }
 
-async function getPathFromManifest(urn, token) {
+async function getPathFromManifest(urn, token, reply) {
 	const resp = await fetch(`${FORGE_SVF2_URL}/${urn}`, opts(token));
-	if (resp.status != 200) 
-		throw(`{ "developerMessage":"Token is not provided in the request.", "moreInfo": "https://forge.autodesk.com/en/docs/oauth/v2/developers_guide/error_handling/", "errorCode": "AUTH-010"}`);
+	if (resp.status != 200) {
+      reply.code(resp.status).send(resp.statusText);
+      throw(resp.statusText);
+  }
   const jsn = await resp.json();
 	return jsn.children[0].otg_manifest;
 }
@@ -50,7 +52,8 @@ async function downloadLookupTable(otgm, token) {
 	const file = `dbid.idx`;
 	const url = `https://us.otgs.autodesk.com/modeldata/file/${otgm.paths.version_root}${otgm.pdb_manifest.pdb_version_rel_path}`;
 	const buff = await ( await fetch(`${url}${file}?acmsession=${otgm.urn}`, opts(token) )).buffer();
-	const dbidIdx = new Uint32Array(buff.buffer, buff.byteOffset, buff.byteLength / Uint32Array.BYTES_PER_ELEMENT);
+	const rev = new Uint32Array(buff.buffer, buff.byteOffset, buff.byteLength / Uint32Array.BYTES_PER_ELEMENT);
+  const dbidIdx=[]; rev.map( (i,dbid) => {dbidIdx[i] = dbid;});
 	return dbidIdx;
 }
 
@@ -69,7 +72,7 @@ fastify.get('/:urn/metadata/:guid/properties', async (request, reply) => {
     const guid = request.params.guid;
     const token = request.headers.authorization.slice(7);
 
-    const dbidIdx = await getLookupTable(urn, token);
+    const dbidIdx = await getLookupTable(urn, token, reply);
     const res_svf2 = await proxy_fetch_properties(dbidIdx, urn, guid, token, reply);
 
     setCORS(reply);
