@@ -108,7 +108,7 @@ fastify.get('/:urn/metadata/:guid', async (request, reply) => {
 
 async function proxy_fetch_guid(dbidIdx, urn, guid, token, reply) {
   const resp = await fetch(`https://developer.api.autodesk.com/modelderivative/v2/designdata/${urn}/metadata/${guid}?forceget=true`, opts(token) );
-  if (resp.status != 200) return reply.callNotFound(); 
+  if (resp.status != 200) return reply.code(resp.status).send(resp.statusText); 
 	const json = await resp.json();
 
   // recursively travese json tree and swizzle objectid with svf2
