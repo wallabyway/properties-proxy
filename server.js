@@ -80,8 +80,9 @@ fastify.get('/:urn/metadata/:guid/properties', async (request, reply) => {
 });
 
 async function proxy_fetch_properties(dbidIdx, urn, guid, token, reply) {
-	const resp = await fetch(`https://developer.api.autodesk.com/modelderivative/v2/designdata/${urn}/metadata/${guid}/properties`, opts(token) );
-  if (resp.status != 200) return reply.callNotFound(); 
+	const resp = await fetch(`https://developer.api.autodesk.com/modelderivative/v2/designdata/${urn}/metadata/${guid}/properties?forceget=true`, opts(token) );
+  console.log(`resp.status:${resp.status}`);
+  if (resp.status != 200) return reply.code(resp.status).send(resp.statusText); 
   const json = await resp.json();
   json.data.collection.map( i => {i.svf2 = i.objectid; i.objectid = dbidIdx[i.svf2]})
 	return json;
