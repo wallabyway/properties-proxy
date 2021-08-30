@@ -50,7 +50,7 @@ async function getPathFromManifest(urn, token, reply) {
 
 async function downloadLookupTable(otgm, token) {
 	const file = `dbid.idx`;
-	const url = `https://us.otgs.autodesk.com/modeldata/file/${otgm.paths.version_root}${otgm.pdb_manifest.pdb_version_rel_path}`;
+	const url = `https://us.otgs.autodesk.com/modeldata/file/` + encodeURIComponent(`${otgm.paths.version_root}${otgm.pdb_manifest.pdb_version_rel_path}`);
 	const buff = await ( await fetch(`${url}${file}?acmsession=${otgm.urn}`, opts(token) )).buffer();
 	const rev = new Uint32Array(buff.buffer, buff.byteOffset, buff.byteLength / Uint32Array.BYTES_PER_ELEMENT);
   const dbidIdx=[]; rev.map( (i,dbid) => {dbidIdx[i] = dbid;});
