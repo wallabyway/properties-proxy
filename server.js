@@ -84,7 +84,7 @@ async function proxy_fetch_properties(dbidIdx, urn, guid, token, reply) {
   console.log(`resp.status:${resp.status}`);
   if (resp.status != 200) return reply.code(resp.status).send(resp.statusText); 
   const json = await resp.json();
-  json.data.collection.map( i => {i.svf2 = i.objectid; i.objectid = dbidIdx[i.svf2]})
+  json.data.collection.map( i => {i.svf2 = i.objectid; i.objectid = i.svf2; /*dbidIdx[i.svf2]*/ })
 	return json;
 }
 
@@ -117,7 +117,7 @@ async function proxy_fetch_guid(dbidIdx, urn, guid, token, reply) {
       var node = currentNode.objects[index];
       if(node.objectid) {
           node.svf2 = node.objectid;
-          node.objectid = dbidIdx[node.svf2];
+          node.objectid = node.svf2;//dbidIdx[node.svf2];
       }
       swizzleNode(node);
     }
