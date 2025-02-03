@@ -16,7 +16,11 @@ const fastify = require('fastify')({ logger: true });
 const fs = require('fs');
 const path = require('path');
 
-const FORGE_SVF2_URL = `https://otg.autodesk.com/modeldata/manifest`;
+//const SVF2_MANIFEST = `https://otg.autodesk.com/modeldata/manifest`;
+const SVF2_MANIFEST = `https://cdn.derivative.autodesk.com/modeldata/manifest`;
+//const SVF2_FILE = `https://us.otgs.autodesk.com/modeldata/file/`;
+const SVF2_FILE = `https://cdn.derivative.autodesk.com/modeldata/file/`;
+
 const opts = token => ({ compress: true, headers: { 'Authorization': 'Bearer ' + token }});
 
 function setCORS(reply) {
@@ -39,7 +43,7 @@ async function getLookupTable(urn, token, reply) {
 }
 
 async function getPathFromManifest(urn, token, reply) {
-	const resp = await fetch(`${FORGE_SVF2_URL}/${urn}`, opts(token));
+	const resp = await fetch(`${SVF2_MANIFEST}/${urn}`, opts(token));
 	if (resp.status != 200) {
       reply.code(resp.status).send(resp.statusText);
       throw(resp.statusText);
@@ -50,7 +54,7 @@ async function getPathFromManifest(urn, token, reply) {
 
 async function downloadLookupTable(otgm, token) {
 	const file = `dbid.idx`;
-	const url = `https://us.otgs.autodesk.com/modeldata/file/` + encodeURIComponent(`${otgm.paths.version_root}${otgm.pdb_manifest.pdb_version_rel_path}`);
+	const url = SVF2_FILE + encodeURIComponent(`${otgm.paths.version_root}${otgm.pdb_manifest.pdb_version_rel_path}`);
 	const buff = await ( await fetch(`${url}${file}?acmsession=${otgm.urn}`, opts(token) )).buffer();
 	const rev = new Uint32Array(buff.buffer, buff.byteOffset, buff.byteLength / Uint32Array.BYTES_PER_ELEMENT);
   const dbidIdx=[]; rev.map( (i,dbid) => {dbidIdx[i] = dbid;});
