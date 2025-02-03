@@ -18,8 +18,10 @@ const path = require('path');
 
 //const SVF2_MANIFEST = `https://otg.autodesk.com/modeldata/manifest`;
 const SVF2_MANIFEST = `https://cdn.derivative.autodesk.com/modeldata/manifest`;
+const SVF2_MANIFEST_EU = `https://otg.eu.autodesk.com/regions/eu/modeldata/manifest`;
 //const SVF2_FILE = `https://us.otgs.autodesk.com/modeldata/file/`;
 const SVF2_FILE = `https://cdn.derivative.autodesk.com/modeldata/file/`;
+const SVF2_FILE_EU = `https://cdn.derivative.autodesk.com/regions/eu/modeldata/file/`;
 
 const opts = token => ({ compress: true, headers: { 'Authorization': 'Bearer ' + token }});
 
